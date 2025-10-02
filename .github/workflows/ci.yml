@@ -1,0 +1,46 @@
+name: CI WebDriverIO + Appium
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Appium
+        run: npm install -g appium
+
+      - name: Start Appium server
+        run: appium --log-level error &
+
+      - name: Run tests WebDriverIO
+        run: npx wdio run ./wdio.conf.js
+
+      - name: Generate Allure Report
+        run: |
+          npx allure generate allure-results --clean -o allure-report
+          npx allure open allure-report
+
+      - name: Upload Allure Report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: allure-report
