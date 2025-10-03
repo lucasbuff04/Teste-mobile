@@ -1,4 +1,3 @@
-// tests/login.spec.js
 const LoginPage = require('../pages/login.page');
 const logger = require('loglevel');
 

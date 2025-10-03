@@ -1,4 +1,3 @@
-// tests/cadastro.spec.js
 const CadastroPage = require('../pages/cadastro.page');
 const logger = require('loglevel');
 
@@ -35,4 +34,32 @@ describe('Cadastro - Cenários CT05 a CT07', () => {
         await cadastroPage.clicarCadastrar();
         await cadastroPage.validarErroEmailInvalido();
     });
+
+    it('CT08 - Deve exibir erro para senha fraca', async () => {
+        await cadastroPage.acessarCadastro()
+        await cadastroPage.preencherEmail('usuarioforca@test.com')
+        await cadastroPage.preencherSenha('abcdef') 
+        await cadastroPage.preencherConfirmSenha('abcdef')
+        await cadastroPage.clicarCadastrar()
+        await cadastroPage.validarErroSenhaFraca() 
+    });
+
+    it('CT09 - Deve exibir erro ao tentar cadastrar email já existente', async () => {
+        await cadastroPage.acessarCadastro()
+        await cadastroPage.preencherEmail('usuario_existente@test.com')
+        await cadastroPage.preencherSenha('SenhaValida123!')
+        await cadastroPage.preencherConfirmSenha('SenhaValida123!')
+        await cadastroPage.clicarCadastrar()
+        await cadastroPage.validarErroEmailExistente()
+    });
+
+    it('CT10 - Deve validar campos obrigatórios no cadastro', async () => {
+        await cadastroPage.acessarCadastro()
+        await cadastroPage.preencherEmail('')
+        await cadastroPage.preencherSenha('')
+        await cadastroPage.preencherConfirmSenha('')
+        await cadastroPage.clicarCadastrar()
+        await cadastroPage.validarErroCampoObrigatorioEmail()
+        await cadastroPage.validarErroCampoObrigatorioSenha()
+    })
 });

@@ -14,6 +14,10 @@ class CadastroPage {
         this.SUCCESS_MESSAGE = $('android=new UiSelector().text("Cadastro realizado com sucesso")');
         this.ERROR_PASSWORD_MISMATCH = $('android=new UiSelector().text("As senhas não coincidem")');
         this.ERROR_EMAIL_INVALID = $('android=new UiSelector().text("Email inválido")');
+        this.ERROR_PASSWORD_WEAK = $('android=new UiSelector().text("Senha fraca")');
+        this.ERROR_EMAIL_EXISTS = $('android=new UiSelector().text("Email já cadastrado")');
+        this.ERROR_EMAIL_REQUIRED = $('android=new UiSelector().text("Email é obrigatório")');
+        this.ERROR_PASSWORD_REQUIRED = $('android=new UiSelector().text("Senha é obrigatória")');
     }
 
     async acessarCadastro() {
@@ -51,6 +55,22 @@ class CadastroPage {
 
     async validarErroEmailInvalido() {
         await waitForElementVisible(this.ERROR_EMAIL_INVALID);
+    }
+
+    async validarErroSenhaFraca() {
+        await waitForElementVisible(this.ERROR_PASSWORD_WEAK);
+    }
+
+    async validarErroEmailExistente() {
+        await waitForElementVisible(this.ERROR_EMAIL_EXISTS);
+    }
+
+    async validarErroCampoObrigatorioEmail() {
+        await waitForElementVisible(this.ERROR_EMAIL_REQUIRED);
+    }
+
+    async validarErroCampoObrigatorioSenha() {
+        await waitForElementVisible(this.ERROR_PASSWORD_REQUIRED);
     }
 }
 
